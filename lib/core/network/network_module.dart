@@ -20,8 +20,8 @@ abstract class NetworkModule {
         response.data!,
         response.statusMessage,
       );
-    } on DioError catch (e) {
-      if (e.type == DioErrorType.response) {
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
         return Result.error(
           e.response!.statusCode ?? 400,
           e.response!.data,
@@ -104,9 +104,9 @@ abstract class NetworkModule {
     var dio = DioModule.getInstance(
       BaseOptions(
         baseUrl: url,
-        connectTimeout: 10000,
-        sendTimeout: 10000,
-        receiveTimeout: 10000,
+        connectTimeout: const Duration(seconds: 10),
+        sendTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
       ),
     );
 
